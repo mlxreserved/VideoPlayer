@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.jetbrains.kotlin.plugin.serialization)
     alias(libs.plugins.google.devtools.ksp)
+    alias(libs.plugins.google.dagger.hilt.plugin)
 }
 
 android {
@@ -54,6 +55,16 @@ dependencies {
     // Network
     implementation(libs.squareup.retrofit2)
     implementation(libs.jetbrains.kotlinx.serialization.json)
+    implementation(libs.squareup.okhttp3)
+    implementation(libs.jakewharton.retrofit.kotlinx.serialization.converter)
+
+    // Navigation
+    implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.androidx.navigation.fragment.ktx)
+
+    // Coil
+    implementation(libs.io.coil3.network.okhttp)
+    implementation(libs.io.coil3)
 
 
     implementation(libs.androidx.core.ktx)
