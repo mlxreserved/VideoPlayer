@@ -1,18 +1,14 @@
 package com.example.videoplayer.data.api
 
+import com.example.videoplayer.util.Constants.VIDEO_API_URL
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 
 object RetrofitClient {
-    private const val VIDEO_API_URL = "https://ws.api.video"
 
-    private val json = Json {
-        ignoreUnknownKeys = true
-        coerceInputValues = true
-    }
+    private val json = Json { ignoreUnknownKeys = true }
     private val contentType = "application/json".toMediaType()
     private val converterFactory = json.asConverterFactory(contentType)
 

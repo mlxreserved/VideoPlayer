@@ -1,12 +1,21 @@
-package com.example.videoplayer.data.model.videos
-
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
-
-@Serializable
-data class VideosDTO(
-    @SerialName("data")
-    val dataOfVideosDTO: List<DataOfVideoDTO>,
-    val pagination: PaginationDTO
-)
-
+//package com.example.videoplayer.data.model.videos
+//
+//data class VideosDTO(
+//    val
+//)
+//
+////@Serializable
+////data class VideosDTO(
+////    @SerialName("data")
+////    val dataOfVideo: List<DataOfVideoDTO>
+////)
+//
+//
+////data class VideosDTO(
+////    @SerialName("items")
+////    val dataOfVideo: List<DataOfVideoDTO>,
+////    val count: Int,
+////)
+//
+//
+//

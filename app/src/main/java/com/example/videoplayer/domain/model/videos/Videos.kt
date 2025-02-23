@@ -1,5 +1,6 @@
 package com.example.videoplayer.domain.model.videos
 
-data class Videos(
-    val dataOfVideos: List<DataOfVideo>
-)
+import com.example.videoplayer.data.model.videos.DataOfVideoDTO
+
+
+class Videos : ArrayList<DataOfVideo>()

@@ -66,6 +66,8 @@ dependencies {
     implementation(libs.io.coil3.network.okhttp)
     implementation(libs.io.coil3)
 
+    implementation(libs.androidx.swiperefreshlayout)
+
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
