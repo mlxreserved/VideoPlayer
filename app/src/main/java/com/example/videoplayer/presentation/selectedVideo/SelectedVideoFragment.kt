@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.OptIn
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -15,9 +14,9 @@ import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import com.example.videoplayer.databinding.FragmentSelectedVideoBinding
 import com.example.videoplayer.domain.customError.PlayVideoError
-import com.example.videoplayer.util.Constants.PLAYER_CURRENT_POS_KEY
-import com.example.videoplayer.util.Constants.PLAYER_IS_READY_KEY
-import com.example.videoplayer.util.Constants.VIDEO_URI_KEY
+import com.example.videoplayer.util.Constant.PLAYER_CURRENT_POS_KEY
+import com.example.videoplayer.util.Constant.PLAYER_IS_READY_KEY
+import com.example.videoplayer.util.Constant.VIDEO_URI_KEY
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch

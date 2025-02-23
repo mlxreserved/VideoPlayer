@@ -15,13 +15,14 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.videoplayer.R
 import com.example.videoplayer.databinding.FragmentVideosBinding
-import com.example.videoplayer.domain.model.videos.Asset
-import com.example.videoplayer.domain.model.videos.DataOfVideo
-import com.example.videoplayer.domain.state.VideosState
+import com.example.videoplayer.domain.local.model.LocalVideo
+import com.example.videoplayer.domain.remote.model.Asset
+import com.example.videoplayer.domain.remote.model.RemoteVideo
+import com.example.videoplayer.presentation.videos.state.VideosState
 import com.example.videoplayer.presentation.videos.recyclerView.VideosAdapter
-import com.example.videoplayer.util.Constants.SECURED_URL_START
-import com.example.videoplayer.util.Constants.UNSECURED_URL_START
-import com.example.videoplayer.util.Constants.VIDEO_URI_KEY
+import com.example.videoplayer.util.Constant.SECURED_URL_START
+import com.example.videoplayer.util.Constant.UNSECURED_URL_START
+import com.example.videoplayer.util.Constant.VIDEO_URI_KEY
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -59,7 +60,9 @@ class VideosFragment: Fragment() {
                 videosState.collect { state ->
                     when(state) {
                         is VideosState.Loading -> showLoading()
-                        is VideosState.Loaded -> showLoadedVideos(videosList = state.videos, navController)
+                        is VideosState.Loaded -> {
+                            showLoadedVideos(videosList = state.videos, navController)
+                        }
                         is VideosState.Error -> showError(errorMessage = state.errorMessage)
                     }
                 }
@@ -88,7 +91,7 @@ class VideosFragment: Fragment() {
         }
     }
 
-    private fun showLoadedVideos(videosList: List<DataOfVideo>, navController: NavController) {
+    private fun showLoadedVideos(videosList: List<LocalVideo>, navController: NavController) {
         val adapter = VideosAdapter(videosList)
         hideErrorAndLoadingLayouts()
         setOnClickListenerToAdapter(adapter, navController)
@@ -109,31 +112,15 @@ class VideosFragment: Fragment() {
 
     private fun setOnClickListenerToAdapter(adapter: VideosAdapter, navController: NavController) {
         adapter.setOnClickListener(object : VideosAdapter.OnClickListener {
-            override fun onClick(position: Int, item: DataOfVideo) {
-                val allUriMediaItem = item.assets
-
-                val necessaryUri = findNecessaryUri(allUriMediaItem)
-                val correctUri = createCorrectUri(necessaryUri)
+            override fun onClick(position: Int, item: LocalVideo) {
+                val uriMediaItem = item.videoUri
 
                 val bundle = bundleOf(
-                    VIDEO_URI_KEY to correctUri
+                    VIDEO_URI_KEY to uriMediaItem
                 )
                 navController.navigate(R.id.action_videosFragment_to_selectedVideoFragment, bundle)
             }
         })
-    }
-
-    private fun findNecessaryUri(allUriMediaItem: List<Asset>): String? {
-        return allUriMediaItem.find { uriMediaItem ->
-            uriMediaItem.contentType == "video/mp4" && uriMediaItem.type == "MdMp4VideoFile"
-        }?.url
-    }
-
-    private fun createCorrectUri(requiredUriMediaItem: String?): String? {
-        if(requiredUriMediaItem?.substring(0, 6) != SECURED_URL_START) {
-            return requiredUriMediaItem?.replace(UNSECURED_URL_START, SECURED_URL_START)
-        }
-        return requiredUriMediaItem
     }
 
     private fun hideErrorAndLoadingLayouts() {

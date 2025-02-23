@@ -5,10 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil3.load
 import com.example.videoplayer.databinding.ItemVideosListBinding
-import com.example.videoplayer.domain.model.videos.DataOfVideo
+import com.example.videoplayer.domain.local.model.LocalVideo
+import com.example.videoplayer.domain.remote.model.RemoteVideo
 import kotlin.math.ceil
 
-class VideosAdapter(private val items: List<DataOfVideo>): RecyclerView.Adapter<VideosAdapter.VideosViewHolder>() {
+class VideosAdapter(private val items: List<LocalVideo>): RecyclerView.Adapter<VideosAdapter.VideosViewHolder>() {
 
     private var onClickListener: OnClickListener? = null
 
@@ -35,12 +36,12 @@ class VideosAdapter(private val items: List<DataOfVideo>): RecyclerView.Adapter<
 
 
     interface OnClickListener {
-        fun onClick(position: Int, item: DataOfVideo)
+        fun onClick(position: Int, item: LocalVideo)
     }
 
     class VideosViewHolder(private val itemVideosListBinding: ItemVideosListBinding): RecyclerView.ViewHolder(itemVideosListBinding.root) {
-        fun bind(item: DataOfVideo){
-            val thumbnail = item.thumbnail.url
+        fun bind(item: LocalVideo){
+            val thumbnail = item.thumbnail
             val titleVideo = item.name
             val videoDuration = formatDuration(item.duration)
 

@@ -66,8 +66,13 @@ dependencies {
     implementation(libs.io.coil3.network.okhttp)
     implementation(libs.io.coil3)
 
+    // SwipeRefreshLayout
     implementation(libs.androidx.swiperefreshlayout)
 
+    // Room
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
