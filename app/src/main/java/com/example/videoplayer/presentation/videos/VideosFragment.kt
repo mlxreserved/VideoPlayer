@@ -15,9 +15,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.videoplayer.R
 import com.example.videoplayer.databinding.FragmentVideosBinding
-import com.example.videoplayer.domain.local.model.LocalVideo
-import com.example.videoplayer.domain.remote.model.Asset
-import com.example.videoplayer.domain.remote.model.RemoteVideo
+import com.example.videoplayer.domain.model.video.Video
 import com.example.videoplayer.presentation.videos.state.VideosState
 import com.example.videoplayer.presentation.videos.recyclerView.VideosAdapter
 import com.example.videoplayer.util.Constant.SECURED_URL_START
@@ -91,7 +89,7 @@ class VideosFragment: Fragment() {
         }
     }
 
-    private fun showLoadedVideos(videosList: List<LocalVideo>, navController: NavController) {
+    private fun showLoadedVideos(videosList: List<Video>, navController: NavController) {
         val adapter = VideosAdapter(videosList)
         hideErrorAndLoadingLayouts()
         setOnClickListenerToAdapter(adapter, navController)
@@ -112,8 +110,8 @@ class VideosFragment: Fragment() {
 
     private fun setOnClickListenerToAdapter(adapter: VideosAdapter, navController: NavController) {
         adapter.setOnClickListener(object : VideosAdapter.OnClickListener {
-            override fun onClick(position: Int, item: LocalVideo) {
-                val uriMediaItem = item.videoUri
+            override fun onClick(position: Int, item: Video) {
+                val uriMediaItem = item.asset.url
 
                 val bundle = bundleOf(
                     VIDEO_URI_KEY to uriMediaItem

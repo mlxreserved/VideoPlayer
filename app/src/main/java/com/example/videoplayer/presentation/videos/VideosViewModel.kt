@@ -2,9 +2,7 @@ package com.example.videoplayer.presentation.videos
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.videoplayer.data.mapper.remote.video.remoteVideos_to_localVideos
-import com.example.videoplayer.domain.local.model.LocalVideo
-import com.example.videoplayer.domain.remote.model.RemoteVideo
+import com.example.videoplayer.domain.model.video.Video
 import com.example.videoplayer.domain.usecase.local.DeleteLocalVideosUseCase
 import com.example.videoplayer.domain.usecase.local.GetLocalVideosUseCase
 import com.example.videoplayer.domain.usecase.local.InsertLocalVideosUseCase
@@ -41,11 +39,10 @@ class VideosViewModel @Inject constructor(
 
             _videosState.update { VideosState.Loading }
 
-            val remoteVideos = getRemoteVideos()
-            val localVideos = remoteVideos.map{ it.remoteVideos_to_localVideos() }
-            deleteAndInsertLocalVideos(localVideos)
+            val remoteVideos = getRemoteVideosUseCase()
+            deleteAndInsertLocalVideos(remoteVideos)
 
-            _videosState.update { VideosState.Loaded(localVideos) }
+            _videosState.update { VideosState.Loaded(remoteVideos) }
         } catch (e: IOException) {
             handleError("Network error: ${e.message}")
         } catch (e: Exception) {
@@ -54,7 +51,7 @@ class VideosViewModel @Inject constructor(
     }
 
     private suspend fun handleError(errorMessage: String) {
-        val localVideos = getLocalVideos()
+        val localVideos = getLocalVideosUseCase()
         if(localVideos.isNotEmpty()) {
             _videosState.update { VideosState.Loaded(localVideos) }
         } else {
@@ -62,22 +59,9 @@ class VideosViewModel @Inject constructor(
         }
     }
 
-    private suspend fun deleteAndInsertLocalVideos(videos: List<LocalVideo>) {
-        deleteLocalVideos()
-        insertLocalVideos(videos)
-    }
-
-    private suspend fun insertLocalVideos(videos: List<LocalVideo>) {
+    private suspend fun deleteAndInsertLocalVideos(videos: List<Video>) {
+        deleteLocalVideosUseCase()
         insertLocalVideosUseCase(videos)
     }
 
-    private suspend fun getLocalVideos(): List<LocalVideo> =
-        getLocalVideosUseCase()
-
-    private suspend fun deleteLocalVideos() {
-        deleteLocalVideosUseCase()
-    }
-
-    private suspend fun getRemoteVideos(): List<RemoteVideo> =
-        getRemoteVideosUseCase()
 }

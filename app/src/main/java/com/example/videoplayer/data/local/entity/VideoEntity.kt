@@ -1,5 +1,6 @@
 package com.example.videoplayer.data.local.entity
 
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -10,5 +11,6 @@ data class VideoEntity(
     val duration: Double,
     val thumbnail: String,
     val name: String,
-    val videoUri: String
+    @Embedded
+    val asset: AssetEntity
 )

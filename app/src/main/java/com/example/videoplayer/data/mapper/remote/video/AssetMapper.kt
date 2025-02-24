@@ -1,7 +1,7 @@
 package com.example.videoplayer.data.mapper.remote.video
 
 import com.example.videoplayer.data.remote.model.AssetDTO
-import com.example.videoplayer.domain.remote.model.Asset
+import com.example.videoplayer.domain.model.video.Asset
 
 fun assetDTO_to_asset(assetDTO: AssetDTO): Asset {
     return Asset(

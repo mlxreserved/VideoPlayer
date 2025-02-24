@@ -1,32 +1,32 @@
 package com.example.videoplayer.data.mapper.remote.video
 
 import com.example.videoplayer.data.remote.model.RemoteVideoDTO
-import com.example.videoplayer.domain.remote.model.Asset
-import com.example.videoplayer.domain.remote.model.RemoteVideo
+import com.example.videoplayer.domain.model.video.Video
+import com.example.videoplayer.domain.model.video.Asset
 import com.example.videoplayer.util.Constant.SECURED_URL_START
 import com.example.videoplayer.util.Constant.UNSECURED_URL_START
 
-fun remoteVideoDTO_to_remoteVideo(remoteVideoDTO: RemoteVideoDTO): RemoteVideo {
+fun remoteVideoDTO_to_video(remoteVideoDTO: RemoteVideoDTO): Video {
     val assets: List<Asset> = remoteVideoDTO.assets.map { assetDTO -> assetDTO_to_asset(assetDTO) }
-    val asset = findNecessaryAsset(assets = assets)
-    val correctAsset = asset.copy(url = createCorrectUri(asset.url))
+    val necessaryAsset = findNecessaryAsset(assets = assets)
+    val correctAsset = necessaryAsset.copy(url = createCorrectUri(necessaryAsset.url))
 
-    return RemoteVideo(
+    return Video(
         id = remoteVideoDTO.id,
         duration = remoteVideoDTO.duration,
-        thumbnail = thumbnailDTO_to_thumbnail(remoteVideoDTO.thumbnail),
+        thumbnail = remoteVideoDTO.thumbnail.url,
         name = remoteVideoDTO.name,
         asset = correctAsset
     )
 }
 
-fun remoteVideo_to_remoteVideoDTO(remoteVideo: RemoteVideo): RemoteVideoDTO {
+fun video_to_remoteVideoDTO(video: Video): RemoteVideoDTO {
     return RemoteVideoDTO(
-        id = remoteVideo.id,
-        duration = remoteVideo.duration,
-        thumbnail = thumbnail_to_thumbnailDTO(remoteVideo.thumbnail),
-        name = remoteVideo.name,
-        assets = listOf(asset_to_assetDTO(remoteVideo.asset))
+        id = video.id,
+        duration = video.duration,
+        thumbnail = thumbnail_to_thumbnailDTO(video.thumbnail),
+        name = video.name,
+        assets = listOf(asset_to_assetDTO(video.asset))
     )
 }
 

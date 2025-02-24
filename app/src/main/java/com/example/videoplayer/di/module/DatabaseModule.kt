@@ -3,6 +3,7 @@ package com.example.videoplayer.di.module
 import android.content.Context
 import androidx.room.Room
 import com.example.videoplayer.data.local.dao.VideoDao
+import com.example.videoplayer.data.local.database.MIGRATION_1_2
 import com.example.videoplayer.data.local.database.VideoDatabase
 import com.example.videoplayer.data.local.repository.VideoLocalRepositoryImpl
 import com.example.videoplayer.domain.local.repository.VideoLocalRepository
@@ -24,7 +25,9 @@ object DatabaseModule {
             context,
             VideoDatabase::class.java,
             "video_database"
-        ).build()
+        )
+            .addMigrations(MIGRATION_1_2)
+            .build()
     }
 
     @Provides
