@@ -22,7 +22,6 @@
             android:id="@+id/loadingLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:indicatorColor="@color/white"
             android:indeterminate="true"
 
             app:layout_constraintBottom_toBottomOf="parent"

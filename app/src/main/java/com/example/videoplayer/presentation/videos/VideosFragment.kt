@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.videoplayer.R
 import com.example.videoplayer.databinding.FragmentVideosBinding
 import com.example.videoplayer.domain.model.video.Video
+import com.example.videoplayer.presentation.videos.recyclerView.BottomOffsetDecoration
 import com.example.videoplayer.presentation.videos.state.VideosState
 import com.example.videoplayer.presentation.videos.recyclerView.VideosAdapter
 import com.example.videoplayer.util.Constant.SECURED_URL_START
@@ -93,6 +94,7 @@ class VideosFragment: Fragment() {
         val adapter = VideosAdapter(videosList)
         hideErrorAndLoadingLayouts()
         setOnClickListenerToAdapter(adapter, navController)
+        setBottomSpaceToElementOfRecyclerView()
         binding.videosRecyclerView.visibility = View.VISIBLE
         binding.videosRecyclerView.adapter = adapter
     }
@@ -100,6 +102,13 @@ class VideosFragment: Fragment() {
     private fun showLoading() {
         binding.loadingLayout.visibility = View.VISIBLE
         hideErrorAndLoadedLayouts()
+    }
+
+    private fun setBottomSpaceToElementOfRecyclerView() {
+        val bottomSpacingInPixels = resources.getDimensionPixelSize(R.dimen.spacing)
+        if(binding.videosRecyclerView.itemDecorationCount == 0) {
+            binding.videosRecyclerView.addItemDecoration(BottomOffsetDecoration(bottomSpacingInPixels))
+        }
     }
 
     private fun showError(errorMessage: String) {
