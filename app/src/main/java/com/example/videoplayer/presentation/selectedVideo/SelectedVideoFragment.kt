@@ -20,6 +20,7 @@ import com.example.videoplayer.util.Constant.VIDEO_URI_KEY
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 import kotlin.math.max
 
 @AndroidEntryPoint
@@ -32,7 +33,7 @@ class SelectedVideoFragment: Fragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putLong(PLAYER_CURRENT_POS_KEY, max(0L, exoPlayer?.currentPosition ?: 0L))
+        outState.putLong(PLAYER_CURRENT_POS_KEY, exoPlayer?.currentPosition ?: 0L)
         outState.putBoolean(PLAYER_IS_READY_KEY, exoPlayer?.playWhenReady ?: false)
     }
 
@@ -59,10 +60,8 @@ class SelectedVideoFragment: Fragment() {
         errorHandle()
 
         exoPlayer = selectedVideoViewModel.getPlayer()
-        if(exoPlayer != null) {
-            resumePlaybackFromSavedState(savedInstanceState)
-            binding.playerView.player = exoPlayer
-        }
+        resumePlaybackFromSavedState(savedInstanceState)
+        binding.playerView.player = exoPlayer
     }
 
     override fun onDestroyView() {

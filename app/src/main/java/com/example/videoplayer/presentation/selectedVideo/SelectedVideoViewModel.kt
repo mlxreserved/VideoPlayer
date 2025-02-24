@@ -23,38 +23,44 @@ class SelectedVideoViewModel @Inject constructor(
     private val releasePlayerUseCase: ReleasePlayerUseCase,
     private val getPlayerUseCase: GetPlayerUseCase
 ): ViewModel() {
-
-    private var isPlaying = false
-
-
     private val _errors = MutableStateFlow<PlayVideoError?>(null)
     val errors: StateFlow<PlayVideoError?> = _errors.asStateFlow()
 
-    fun getPlayer(): ExoPlayer? {
-        return getPlayerUseCase()
+    private var exoPlayer: ExoPlayer? = null
+
+    fun getPlayer(): ExoPlayer {
+        initializeVideoPlayer()
+        return exoPlayer ?: throw IllegalStateException("ExoPlayer is not initialized")
     }
 
     fun playVideo(videoUri: String) {
+        if(exoPlayer?.isPlaying == true) {
+            return
+        }
         viewModelScope.launch {
             playVideoUseCase.errors.collect { error ->
                 _errors.update { error }
             }
         }
         playVideoUseCase(videoUri, viewModelScope)
-        isPlaying = true
     }
 
     fun isVideoPlaying(): Boolean{
-        return isPlaying
+        return exoPlayer?.isPlaying ?: false
     }
 
     private fun releasePlayer() {
         releasePlayerUseCase()
-        isPlaying = false
     }
 
     override fun onCleared() {
         super.onCleared()
         releasePlayer()
+    }
+
+    fun initializeVideoPlayer() {
+        if(exoPlayer == null) {
+            exoPlayer = getPlayerUseCase()
+        }
     }
 }
