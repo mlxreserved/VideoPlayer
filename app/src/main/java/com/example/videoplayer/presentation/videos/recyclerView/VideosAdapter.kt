@@ -49,19 +49,6 @@ class VideosAdapter(private val items: List<Video>): RecyclerView.Adapter<Videos
             itemVideosListBinding.videoDuration.text = videoDuration
         }
 
-//        private fun parseDuration(videoDuration: String): String {
-//            val regexToParseISO8601 = Regex("PT(?:(\\d+)H)?(?:(\\d+)M)?(?:(\\d+)S)?")
-//            val matchResult = regexToParseISO8601.find(videoDuration)
-//            val hours = matchResult?.groupValues?.get(1)?.toIntOrNull() ?: 0
-//            val minutes = matchResult?.groupValues?.get(2)?.toIntOrNull() ?: 0
-//            val seconds = matchResult?.groupValues?.get(3)?.toIntOrNull() ?: 0
-//
-//            return if(hours > 0) {
-//                String.format("%02d:%02d:%02d", hours, minutes, seconds) // ЧЧ:ММ:СС
-//            } else {
-//                String.format("%02d:%02d", minutes, seconds) // ЧЧ:ММ:СС
-//            }
-//        }
         private fun formatDuration(durationInSecondsWithDot: Double): String {
             val durationInSeconds = ceil(durationInSecondsWithDot).toInt()
             val hours = durationInSeconds / 3600
